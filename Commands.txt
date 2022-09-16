@@ -1,0 +1,48 @@
+$sufix="azuredevopsopenshift"
+$rg="rg-$sufix"
+$acr="acr$sufix"
+$acrserver = "$acr.azurecr.io"
+
+- Create a resource group
+az group create --name $rg --location eastus
+
+- Create azure registry
+az acr create --resource-group $rg --name $acr --sku Basic
+
+- enable admin
+az acr update --resource-group $rg --name $acr  --admin-enabled true
+
+- login acr
+az acr login --name $acr
+
+- get acr credential
+az acr credential show -n $acr
+#acrazuredevopsopenshift
+#8BD8cBncfSlrGFkxgL1r6VpjLUgsw3D+
+
+- Connect cluster Openshift
+& crc oc-env | Invoke-Expression
+oc login -u kubeadmin -p 39ZXp-mkCfh-3XCtL-ojFMJ https://api.crc.testing:6443
+
+- create project
+oc new-project azuredevopsopenshift
+oc project azuredevopsopenshift
+
+- create sa
+oc create sa azuredevops-sa
+oc policy add-role-to-user edit system:serviceaccount:azuredevopsopenshift:azuredevops-sa
+
+- Get openshift credential
+oc get serviceAccounts azuredevops-sa  -o=jsonpath"={.secrets[*].name}"
+#azuredevops-sa-dockercfg-78g4n azuredevops-sa-token-jtkkh
+
+- Create secret docker-registry
+oc create secret docker-registry --docker-server=$acrserver --docker-username=$acr --docker-password=8BD8cBncfSlrGFkxgL1r6VpjLUgsw3D+ --docker-email=unused acr-secret
+oc secrets link default acr-secret --for=pull
+oc delete secret acr-secret
+
+- Deploy Service
+oc apply -f .\openshift\service.yaml
+
+- Deploy Client
+oc apply -f .\openshift\client.yaml

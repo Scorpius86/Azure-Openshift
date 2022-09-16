@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taller.FullStack.Service", "Taller.FullStack.Service\Taller.FullStack.Service.csproj", "{956159E5-0B22-4073-AD71-9BCCBB47752F}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Taller.FullStack.Client", "Taller.FullStack.Client\Taller.FullStack.Client.esproj", "{ED040E73-D30D-4110-AB5E-078BF6C5A33A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{956159E5-0B22-4073-AD71-9BCCBB47752F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{956159E5-0B22-4073-AD71-9BCCBB47752F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{956159E5-0B22-4073-AD71-9BCCBB47752F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{956159E5-0B22-4073-AD71-9BCCBB47752F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED040E73-D30D-4110-AB5E-078BF6C5A33A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8775E53E-716A-4E2E-A9A6-36424AD00139}
+	EndGlobalSection
+EndGlobal

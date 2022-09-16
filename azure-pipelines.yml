@@ -1,0 +1,58 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build_Deploy
+  displayName: Build & Deploy image
+  jobs:
+  - job: Build_Deploy
+    displayName: Build & Deploy
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: DockerCompose@0
+      displayName: Build    
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Microsoft Partner Network'
+        azureContainerRegistry: '{"loginServer":"acrtallerfullstack.azurecr.io", "id" : "/subscriptions/48b47fa2-e2d4-4eb4-92be-f7410898af0b/resourceGroups/rg-azuredevops/providers/Microsoft.ContainerRegistry/registries/acrtallerfullstack"}'
+        dockerComposeFile: 'docker-compose.yml'
+        action: 'Build services'
+    - task: DockerCompose@0
+      displayName: Push
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Microsoft Partner Network'
+        azureContainerRegistry: '{"loginServer":"acrtallerfullstack.azurecr.io", "id" : "/subscriptions/48b47fa2-e2d4-4eb4-92be-f7410898af0b/resourceGroups/rg-azuredevops/providers/Microsoft.ContainerRegistry/registries/acrtallerfullstack"}'
+        dockerComposeFile: 'docker-compose.yml'
+        action: 'Push services'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy Service
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Microsoft Partner Network'
+        appType: 'webAppContainer'
+        WebAppName: 'taller-fullstack-api'
+        DockerNamespace: 'acrtallerfullstack.azurecr.io'
+        DockerRepository: 'tallerfullstackservice'
+        DockerImageTag: 'latest'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy Client
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Microsoft Partner Network'
+        appType: 'webAppContainer'
+        WebAppName: 'taller-fullstack-client'
+        DockerNamespace: 'acrtallerfullstack.azurecr.io'
+        DockerRepository: 'tallerfullstackclient'
+        DockerImageTag: 'latest'
