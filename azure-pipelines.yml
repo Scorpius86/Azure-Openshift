@@ -16,7 +16,7 @@ pool:
 
 stages:
 - stage: CI
-  displayName: Build & Push image
+  displayName: CI
   jobs:
   - job: Build_Images
     displayName: Build & Push image
@@ -37,3 +37,26 @@ stages:
       displayName: 'Push images'
       inputs:
         action: 'Push services'
+- stage: CD
+  dependsOn: CI
+  displayName: CD
+  jobs:
+  - job: Deploy_Images
+    displayName: Deploy application    
+    variables:
+      openshift.user: 'kubeadmin'
+      openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
+      openshift.url: 'https://api.crc.testing:6443'
+    steps:
+    - powershell: |
+        & crc oc-env | Invoke-Expression
+        oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
+        oc project azuredevopsopenshift
+        oc apply -f .\openshift\service.yaml
+        displayName: 'deploy service'
+    - powershell: |
+        & crc oc-env | Invoke-Expression
+        oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
+        oc project azuredevopsopenshift
+        oc apply -f .\openshift\client.yaml
+        displayName: 'deploy client'
