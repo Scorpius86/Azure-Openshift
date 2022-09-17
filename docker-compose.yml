@@ -2,14 +2,14 @@ version: '3.4'
 
 services:
   taller.fullstack.service:
-    image: acrazuredevopsopenshift.azurecr.io/tallerfullstackservice:1.0.0.3
+    image: acrazuredevopsopenshift.azurecr.io/tallerfullstackservice:1.0.0.5
     ports:
       - 8085:8080
     build:
       context: .
       dockerfile: Taller.FullStack.Service/Dockerfile
   taller.fullstack.client:
-    image: acrazuredevopsopenshift.azurecr.io/tallerfullstackclient:1.0.0.3
+    image: acrazuredevopsopenshift.azurecr.io/tallerfullstackclient:1.0.0.5
     ports:
       - 8086:8080
     build:

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: tallerfullstackclient
-          image: acrazuredevopsopenshift.azurecr.io/tallerfullstackclient:1.0.0.3
+          image: acrazuredevopsopenshift.azurecr.io/tallerfullstackclient:1.0.0.5
           ports:
             - containerPort: 8080
               protocol: TCP  

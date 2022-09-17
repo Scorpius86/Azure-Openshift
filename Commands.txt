@@ -22,7 +22,7 @@ az acr credential show -n $acr
 
 - Connect cluster Openshift
 & crc oc-env | Invoke-Expression
-oc login -u kubeadmin -p 39ZXp-mkCfh-3XCtL-ojFMJ https://api.crc.testing:6443
+oc login -u kubeadmin -p uoP3p-mXQMp-GIji9-Y7mNi https://api.crc.testing:6443
 
 - create project
 oc new-project azuredevopsopenshift
@@ -34,13 +34,13 @@ oc policy add-role-to-user edit system:serviceaccount:azuredevopsopenshift:azure
 
 - Get openshift credential
 oc get serviceAccounts azuredevops-sa  -o=jsonpath"={.secrets[*].name}"
-#azuredevops-sa-dockercfg-78g4n azuredevops-sa-token-jtkkh
+azuredevops-sa-token-2qhxv azuredevops-sa-dockercfg-25qxc
 oc get secret azuredevops-sa-token-jtkkh -o json > openshift/credentials.json
 
 - Create secret docker-registry
 oc create secret docker-registry --docker-server=$acrserver --docker-username=$acr --docker-password=8BD8cBncfSlrGFkxgL1r6VpjLUgsw3D+ --docker-email=unused acr-secret
 oc secrets link default acr-secret --for=pull
-oc delete secret acr-secret
+#oc delete secret acr-secret
 
 - Deploy Service
 oc apply -f .\openshift\service.yaml
@@ -50,7 +50,7 @@ oc apply -f .\openshift\client.yaml
 
 PAT GitHub
 https://github.com/
-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
+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
 
 PAT Azure Server
 6kityje6n446aju2oemntq4z2zcle7ui47rrl3u4zd647tur3hfa
