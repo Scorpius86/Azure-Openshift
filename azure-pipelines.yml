@@ -19,14 +19,14 @@ stages:
   displayName: CI
   jobs:
   - job: Build_Images
-    displayName: Build image
+    displayName: Build images
     steps:    
     - task: DockerCompose@0
       displayName: 'Build images'
       inputs:
         action: 'Build services'    
   - job: Push_Images
-    displayName: Push image
+    displayName: Push images
     steps:
     - task: AzureCLI@2
       displayName: 'acr login'
@@ -43,13 +43,13 @@ stages:
 - stage: CD
   dependsOn: CI
   displayName: CD
+  variables:
+    openshift.user: 'kubeadmin'
+    openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
+    openshift.url: 'https://api.crc.testing:6443'
   jobs:
-  - job: Deploy_Images
-    displayName: Deploy application    
-    variables:
-      openshift.user: 'kubeadmin'
-      openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
-      openshift.url: 'https://api.crc.testing:6443'
+  - job: Deploy_services
+    displayName: Deploy service
     steps:
     - task: PowerShell@2
       displayName: 'deploy service'
@@ -59,7 +59,14 @@ stages:
           & crc oc-env | Invoke-Expression
           oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
           oc project azuredevopsopenshift
-          oc apply -f .\openshift\service.yaml
+          oc apply -f .\openshift\service.yaml    
+  - job: Deploy_client
+    displayName: Deploy client
+    variables:
+      openshift.user: 'kubeadmin'
+      openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
+      openshift.url: 'https://api.crc.testing:6443'
+    steps:    
     - task: PowerShell@2
       displayName: 'deploy client'
       inputs:
