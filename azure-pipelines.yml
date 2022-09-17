@@ -48,15 +48,24 @@ stages:
       openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
       openshift.url: 'https://api.crc.testing:6443'
     steps:
-    - powershell: |
-        & crc oc-env | Invoke-Expression
-        oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
-        oc project azuredevopsopenshift
-        oc apply -f .\openshift\service.yaml
-        displayName: 'deploy service'
-    - powershell: |
-        & crc oc-env | Invoke-Expression
-        oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
-        oc project azuredevopsopenshift
-        oc apply -f .\openshift\client.yaml
-        displayName: 'deploy client'
+    - task: PowerShell@2
+      displayName: 'deploy service'
+      inputs:
+        targetType: 'inline'
+        script: |
+          & crc oc-env | Invoke-Expression
+          oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
+          oc project azuredevopsopenshift
+          oc apply -f .\openshift\service.yaml
+    - task: PowerShell@2
+      displayName: 'deploy client'
+      inputs:
+        targetType: 'inline'
+        script: |
+          & crc oc-env | Invoke-Expression
+          oc login -u $(openshift.user) -p $(openshift.pass) $(openshift.url)
+          oc project azuredevopsopenshift
+          oc apply -f .\openshift\client.yaml
+        
+        
+    
