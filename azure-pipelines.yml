@@ -19,7 +19,14 @@ stages:
   displayName: CI
   jobs:
   - job: Build_Images
-    displayName: Build & Push image
+    displayName: Build image
+    steps:    
+    - task: DockerCompose@0
+      displayName: 'Build images'
+      inputs:
+        action: 'Build services'    
+  - job: Push_Images
+    displayName: Push image
     steps:
     - task: AzureCLI@2
       displayName: 'acr login'
@@ -28,11 +35,7 @@ stages:
         scriptType: ps
         scriptLocation: inlineScript
         inlineScript: |
-          az acr login --name acrazuredevopsopenshift.azurecr.io
-    - task: DockerCompose@0
-      displayName: 'Build images'
-      inputs:
-        action: 'Build services'
+          az acr login --name acrazuredevopsopenshift.azurecr.io    
     - task: DockerCompose@0
       displayName: 'Push images'
       inputs:
