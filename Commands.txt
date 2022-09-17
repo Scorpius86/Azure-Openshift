@@ -35,6 +35,7 @@ oc policy add-role-to-user edit system:serviceaccount:azuredevopsopenshift:azure
 - Get openshift credential
 oc get serviceAccounts azuredevops-sa  -o=jsonpath"={.secrets[*].name}"
 #azuredevops-sa-dockercfg-78g4n azuredevops-sa-token-jtkkh
+oc get secret azuredevops-sa-token-jtkkh -o json > openshift/credentials.json
 
 - Create secret docker-registry
 oc create secret docker-registry --docker-server=$acrserver --docker-username=$acr --docker-password=8BD8cBncfSlrGFkxgL1r6VpjLUgsw3D+ --docker-email=unused acr-secret
@@ -46,3 +47,18 @@ oc apply -f .\openshift\service.yaml
 
 - Deploy Client
 oc apply -f .\openshift\client.yaml
+
+PAT GitHub
+https://github.com/
+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
+
+PAT Azure Server
+6kityje6n446aju2oemntq4z2zcle7ui47rrl3u4zd647tur3hfa
+sslskipcertvalidation
+
+.\config.cmd --unattended --url http://desktop-f2uaigt:9098/DefaultCollection/ --auth negotiate --userName "DESKTOP-F2UAIGT\erick" --password "A$1YoJuegoH"
+.\config.cmd --unattended --url http://desktop-f2uaigt:9098/DefaultCollection/ --auth PAT  --sslskipcertvalidation
+.\config.cmd --unattended --url http://desktop-f2uaigt:9098/DefaultCollection/ --auth negotiate integrated --userName "erick" --password "Password1234"
+http://desktop-f2uaigt:9098/DefaultCollection
+Local-AzureDevOps-OpenShift
+Agent-Build-01
