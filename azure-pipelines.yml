@@ -45,7 +45,7 @@ stages:
   displayName: CD
   variables:
     openshift.user: 'kubeadmin'
-    openshift.pass: '39ZXp-mkCfh-3XCtL-ojFMJ'
+    openshift.pass: 'uoP3p-mXQMp-GIji9-Y7mNi'
     openshift.url: 'https://api.crc.testing:6443'
   jobs:
   - job: Deploy_services
